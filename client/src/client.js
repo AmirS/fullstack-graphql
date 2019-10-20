@@ -9,6 +9,20 @@ import gql from 'graphql-tag'
  * Create a new apollo client and export as default
  */
 
+const typeDefs = gql`
+  extend type User {
+    age: Int
+  }
+`;
+
+const resolvers = {
+  User: {
+    age() {
+      return 35
+    }
+  }
+};
+
 const delay = setContext(
   request =>
     new Promise((success, fail) => {
@@ -31,7 +45,9 @@ const link = ApolloLink.from([
 
 const client = new ApolloClient({
   cache,
-  link
+  link,
+  typeDefs,
+  resolvers
 })
 
 export default client
